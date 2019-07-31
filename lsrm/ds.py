@@ -12,6 +12,7 @@ import os
 import yaml
 import pandas as pd
 import geopandas as gpd
+import xarray as xr
 from utils import param, ds_AET, base_dir
 try:
     import plotly.offline as py
@@ -76,7 +77,7 @@ class LSRM(object):
         return irr1, paw1
 
 
-def input_processing(self, bound_shp, grid_res, buffer_dis, interp_fun, agg_ts_fun, time_agg, precip_et=r'\\fileservices02\ManagedShares\Data\VirtualClimate\vcsn_precip_et_2016-06-06.nc', rain_name='rain', pet_name='pe', crs=4326, irr_eff_dict={'Drip/micro': 1, 'Unknown': 0.8, 'Gun': 0.8, 'Pivot': 0.8, 'K-line/Long lateral': 0.8, 'Rotorainer': 0.8, 'Solid set': 0.8, 'Borderdyke': 0.5, 'Linear boom': 0.8, 'Unknown': 0.8, 'Lateral': 0.8, 'Wild flooding': 0.5, 'Side Roll': 0.8}, irr_trig_dict={'Drip/micro': 0.7, 'Unknown': 0.5, 'Gun': 0.5, 'Pivot': 0.5, 'K-line/Long lateral': 0.5, 'Rotorainer': 0.5, 'Solid set': 0.5, 'Borderdyke': 0.5, 'Linear boom': 0.5, 'Unknown': 0.5, 'Lateral': 0.5, 'Wild flooding': 0.5, 'Side Roll': 0.5}, min_irr_area_ratio=0.01, irr_mons=[10, 11, 12, 1, 2, 3, 4], precip_correction=1.1):
+def input_processing(self, bound_shp, grid_res, buffer_dis, interp_fun, agg_ts_fun, time_agg, precip_et=r'\\fileservices02\ManagedShares\Data\VirtualClimate\vcsn_precip_et_2016-06-06.nc', time_name='time', x_name='longitude', y_name='latitude', rain_name='rain', pet_name='pe', crs=4326, irr_eff_dict={'Drip/micro': 1, 'Unknown': 0.8, 'Gun': 0.8, 'Pivot': 0.8, 'K-line/Long lateral': 0.8, 'Rotorainer': 0.8, 'Solid set': 0.8, 'Borderdyke': 0.5, 'Linear boom': 0.8, 'Unknown': 0.8, 'Lateral': 0.8, 'Wild flooding': 0.5, 'Side Roll': 0.8}, irr_trig_dict={'Drip/micro': 0.7, 'Unknown': 0.5, 'Gun': 0.5, 'Pivot': 0.5, 'K-line/Long lateral': 0.5, 'Rotorainer': 0.5, 'Solid set': 0.5, 'Borderdyke': 0.5, 'Linear boom': 0.5, 'Unknown': 0.5, 'Lateral': 0.5, 'Wild flooding': 0.5, 'Side Roll': 0.5}, min_irr_area_ratio=0.01, irr_mons=[10, 11, 12, 1, 2, 3, 4], precip_correction=1.1):
         """
         Function to process the input data for the lsrm. Outputs a DataFrame of the variables for the lsrm.
         """
@@ -84,6 +85,16 @@ def input_processing(self, bound_shp, grid_res, buffer_dis, interp_fun, agg_ts_f
 
         ## Load and resample precip and et
         bound = gpd.read_file(bound_shp)
+        if isinstance(precip_et, str):
+            with xr.open_dataset(precip_et) as p:
+                precip_et1 = p.copy()
+
+        ## mins and maxes
+        minx, miny, maxx, maxy = bound.geometry.bounds.iloc[0]
+
+        # Precip
+        p1 = Interp(precip_et1, time_name, x_name, y_name, rain_name, crs)
+        new_rain = p1.grid_to_grid(grid_res, bound.crs, (minx, maxx, miny, maxy), 2)
 
         new_rain = poly_interp_agg(precip_et, crs, bound_shp, rain_name, 'time', 'x', 'y', buffer_dis, grid_res, grid_res, interp_fun=interp_fun, agg_ts_fun=agg_ts_fun, period=time_agg) * precip_correction
         new_rain.name = 'precip'
