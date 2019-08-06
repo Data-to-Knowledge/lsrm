@@ -10,7 +10,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 name = 'lsrm'
 main_package = 'lsrm'
 datasets = 'datasets'
-version = '0.0.1'
+version = '0.0.5'
 descrip = 'land surface recharge model'
 
 # The below code is for readthedocs. To have sphinx/readthedocs interact with
@@ -19,7 +19,7 @@ descrip = 'land surface recharge model'
 if os.environ.get('READTHEDOCS', False) == 'True':
     INSTALL_REQUIRES = []
 else:
-    INSTALL_REQUIRES = ['pdsql', 'gistools', 'pyyaml', 'hydrointerp']
+    INSTALL_REQUIRES = ['pdsql', 'gistools', 'hydrointerp']
 
 # Get the long description from the README file
 with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:

@@ -9,15 +9,14 @@ import numpy as np
 import pandas as pd
 import geopandas as gpd
 from pdsql import mssql
-import yaml
 
 ###################################################
 ### Parameters
 
 base_dir = os.path.realpath(os.path.dirname(__file__))
 
-with open(os.path.join(base_dir, 'parameters.yml')) as param:
-    param = yaml.safe_load(param)
+#with open(os.path.join(base_dir, 'parameters.yml')) as param:
+#    param = yaml.safe_load(param)
 
 
 ###################################################

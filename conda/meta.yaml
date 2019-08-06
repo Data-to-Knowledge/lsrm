@@ -1,6 +1,6 @@
 {% set name = "lsrm" %}
-{% set version = "0.0.1" %}
-{% set sha256 = "26516d0599f6614919a9bc984ee1d4c68a66f95c4ccc1452a7f66cfc69c93409" %}
+{% set version = "0.0.5" %}
+{% set sha256 = "be7aa56b707ea0d555603001202e469aeeafb08de1f3e1797147007947393e21" %}
 
 # sha256 is the prefered checksum -- you can get it for a file with:
 #  `openssl sha256 <file name>`.
@@ -36,7 +36,6 @@ requirements:
     - setuptools
   run:
     - python
-    - pyyaml
     - pdsql>=1.2
     - gistools
     - hydrointerp
