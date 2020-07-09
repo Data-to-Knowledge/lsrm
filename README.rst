@@ -30,8 +30,8 @@ Then follow the sequence of methods: soils_import, input_processing, and lsrm.
 
   irr1, psw1 = l1.soils_import()
 
-  mv, sites = self.input_processing(bound_shp, grid_res, buffer_dis, interp_fun, agg_ts_fun, time_agg)
+  mv, sites = l1.input_processing(bound_shp, grid_res, buffer_dis, interp_fun, agg_ts_fun, time_agg)
 
-  results1 = self.lsrm()
+  results1 = l1.lsrm()
 
 Documentation on the David Scott's lsrm methods can be found `here <https://github.com/Data-to-Knowledge/lsrm/raw/master/sphinx/source/docs/David_Scott_lsrm_2013.pdf>`_
