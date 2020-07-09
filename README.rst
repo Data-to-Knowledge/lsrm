@@ -4,6 +4,14 @@ lsrm
 This git repository contains project code for the land surface recharge models (lsrm) developed at Environment Canterbury (ECan).
 The current lsrm available was originally developed by David Scott in 2013 in Fortran, but has been transcribed and improved by Mike Kittridge into this Python package.
 
+Installation
+------------
+Conda is your best bet for installing lsrm. You'll also need python 3.6 and geopandas 0.5.1.
+
+.. code::
+
+  conda install -c mullenkamp lsrm geopandas=0.5.1
+
 ds module
 ----------
 The ds module contains the LSRM class for running the transcribed David Scott lsrm.
@@ -11,6 +19,8 @@ The ds module contains the LSRM class for running the transcribed David Scott ls
 Initialisation does not require any parameters:
 
 .. code::
+
+  from lsrm.ds import LSRM
 
   l1 = LSRM()
 
