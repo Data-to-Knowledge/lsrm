@@ -6,6 +6,7 @@ Created on Tue Jul  2 09:25:41 2019
 """
 import os
 import pandas as pd
+from lsrm import ds
 
 pd.options.display.max_columns = 10
 
@@ -67,7 +68,7 @@ irr_mons=[10, 11, 12, 1, 2, 3, 4]
 precip_correction=1.1
 
 
-self = LSRM()
+self = ds.LSRM()
 
 l2 = self.soils_import()
 
